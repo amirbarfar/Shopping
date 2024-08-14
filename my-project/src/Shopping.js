@@ -80,6 +80,7 @@ export default class Shopping extends Component {
               <table className='w-full text-xl mt-10'>
                 <thead>
                     <tr>
+                        <th>id</th>
                         <th>image</th>
                         <th>name</th>
                         <th>price</th>
