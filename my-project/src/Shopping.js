@@ -33,6 +33,7 @@ export default class Shopping extends Component {
         })
 
         let newItem = {
+           id : findItem.id,
            img : findItem.img,
            name : findItem.title,
            price : findItem.priceBT,
@@ -42,6 +43,19 @@ export default class Shopping extends Component {
         this.setState({
             cart : [...this.state.cart , newItem],
         }) 
+    }
+
+    removeHandler(id){
+        let findId = this.state.cart.find((item)=>{
+            return item.id === id
+         })
+
+         this.state.cart.splice(findId , 1)
+
+         this.setState({
+            cart : [...this.state.cart]
+         })
+ 
     }
   render() {
     return (
@@ -70,12 +84,13 @@ export default class Shopping extends Component {
                         <th>name</th>
                         <th>price</th>
                         <th>count</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody className='text-center'>
                         {
                             this.state.cart.map((item)=>
-                                <Table {...item} key={item.id}/>
+                                <Table {...item} key={item.id} onRemove={this.removeHandler.bind(this)}/>
                             )
                         }
                     </tbody>
