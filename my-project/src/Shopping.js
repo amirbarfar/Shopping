@@ -78,8 +78,14 @@ export default class Shopping extends Component {
             this.state.cart.splice(finditem1 , 1)
 
             this.setState({
-            cart : [...this.state.cart]
+            cart : [...this.state.cart],
         })
+
+        if (this.state.allPrice < 0) {
+            this.setState({
+                allPrice : [],
+            })
+        }
  
     }
 
@@ -118,7 +124,7 @@ export default class Shopping extends Component {
         let sum = 0
         let count = 0
 
-        if (this.state.cart.length <= 0) {
+        if (this.state.cart.length < 0) {
             alert("Please select a product first !");
         }else{
            this.state.cart.forEach((item)=>{
@@ -140,6 +146,7 @@ export default class Shopping extends Component {
             allPrice : 0,
             allCount: 0
         })
+        localStorage.setItem("Items" , JSON.stringify([]))
         alert("اینجا دیگه وقتی زده میشه باید بره سمت درگاه پرداخت و پرداخت بشه واسه همون خالی میشه همه چی :)")
     }
 
