@@ -23,7 +23,8 @@ export default class Shopping extends Component {
             ] ,
             cart : JSON.parse(localStorage.getItem("Items")) ?? [],
             allPrice : 0,
-            allCount : 0
+            allCount : 0,
+            moz : []
         }
     }
 
@@ -49,20 +50,22 @@ export default class Shopping extends Component {
             })
 
             if (localStorage.getItem("Items")) {
-                let oldItem = JSON.parse(localStorage.getItem("Items"))
-                localStorage.setItem("Items" , JSON.stringify([...oldItem , newItem]))
+                this.state.cart.map((item)=>{
+                    let oldItem = JSON.parse(localStorage.getItem("Items"))
+                    if (item.name === findItem.title) {
+                        item.count++;
+                        this.setState({
+                            cart : [...this.state.cart ],
+                        })
+                        localStorage.setItem("Items" , JSON.stringify([...this.state.cart ]))
+                    }else{
+                        localStorage.setItem("Items" , JSON.stringify([...oldItem , newItem]))
+                    }
+                })
             }else{
                 localStorage.setItem("Items" , JSON.stringify([newItem]))
             }
 
-            this.state.cart.map((item)=>{
-                if (item.name === findItem.title) {
-                    alert("It has been added to your cart once !")
-                    this.setState({
-                        cart : [...this.state.cart ],
-                     })
-                }
-            })
         }
 }
 
@@ -95,12 +98,13 @@ export default class Shopping extends Component {
         })
 
         addCountId.count = addCountId.count + 1
-        let test = (addCountId.price * addCountId.count)
-        console.log(test);
+        
 
         this.setState({
             cart : [...this.state.cart],
         })
+
+        localStorage.setItem("Items" , JSON.stringify([...this.state.cart ]))
 
     }
 
@@ -118,6 +122,8 @@ export default class Shopping extends Component {
         this.setState({
             cart : [...this.state.cart]
         })
+
+        localStorage.setItem("Items" , JSON.stringify([...this.state.cart ]))
     }
 
     submitHandler(){
@@ -128,7 +134,7 @@ export default class Shopping extends Component {
             alert("Please select a product first !");
         }else{
            this.state.cart.forEach((item)=>{
-              sum = sum + item.price
+              sum = sum + (item.price * item.count) 
            })
            this.state.cart.map((item)=>{
             count = count + item.count
@@ -178,6 +184,7 @@ export default class Shopping extends Component {
                         <th>name</th>
                         <th>price</th>
                         <th>count</th>
+                        <th>Total price</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -193,7 +200,7 @@ export default class Shopping extends Component {
                 this.state.allPrice > 0 && 
                 <div className='w-[50%] h-44 mx-auto bg-slate-900 rounded-md text-white p-5 flex justify-center items-center flex-col gap text-xl'>
                     <div>
-                        allPrice : {this.state.allPrice}
+                        allPrice : {this.state.allPrice.toLocaleString()}
                     </div>
                     <div>
                         allCount : {this.state.allCount}
