@@ -24,7 +24,6 @@ export default class Shopping extends Component {
             cart : JSON.parse(localStorage.getItem("Items")) ?? [],
             allPrice : 0,
             allCount : 0,
-            moz : []
         }
     }
 
